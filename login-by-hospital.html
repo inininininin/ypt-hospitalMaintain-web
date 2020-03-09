@@ -115,11 +115,7 @@
 
         var queryStringObject = common.queryStringObject();
 
-        if(!queryStringObject.loginHospitalId ||queryStringObject.loginHospitalName){
-            layer.alert('请选择登录医院',{title:null,closeBtn: 0},function(){
-                location.href="./select-hospital.html"
-            });
-        }
+        
 
         $.get('/login-refresh', function (data) {
             if (data.code == 0) {
@@ -245,9 +241,7 @@
                         layer.close(this.layerIndex)
                     }
             })">登录</button>
-           <div style="text-align: right;">
-            <a href="/entrance.html">选择入口</a>
-        </div> 
+           
         </div>
     </div>
     <div class="zdlogin">

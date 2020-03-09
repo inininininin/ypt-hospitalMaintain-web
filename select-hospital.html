@@ -1,0 +1,217 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="keywords" content="忠安医疗,南京忠安,医疗器械,南京,忠安医疗器械有限公司,忠安" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<!-- 让 Bootstrap 兼容 IE 兼容模型 -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 让 Bootstrap 兼容 国产浏览器的高速模型 -->
+		<meta name="renderer" content="webkit">
+		<!-- 实现响应式的设置 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+		<title>选择医院</title>
+		<script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://lib.sinaapp.com/js/bootstrap/3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="./page/select-hospital/paging.css" />
+		<script src="./page/select-hospital/paging.js"></script>
+
+		<style>
+			.disNone {
+				display: none;
+			}
+			
+			.topLine {
+				width: 500px;
+				margin: 50px auto;
+				height: 50px;
+				font-size: 2.2rem;
+			}
+			
+			#searchBox {
+				width: 300px;
+				height: 50px;
+				line-height: 50px;
+				text-align: left;
+				padding: 0 20px;
+				font-size: 2.2rem;
+				float: left;
+				border-radius: 10px;
+				border: 1px solid #e5e5e5;
+				outline: none;
+				margin-left: 50px;
+			}
+			
+			.btn {
+				width: 100px;
+				height: 50px;
+				margin-left: 50px;
+				border: 1px solid #e5e5e5;
+				border-radius: 10px;
+				float: left;
+			}
+			
+			#newsZx {
+				width: 500px;
+				margin: 0 auto;
+				height: auto;
+			}
+			
+			.productList ul li {
+				line-height: 50px;
+				font-size: 2.2rem;
+				color: #333333;
+				text-align: left;
+				font-family: "微软雅黑";
+				margin-top: 2rem;
+			}
+			
+			.productList ul li img {
+				width: 6rem;
+				height: 6rem;
+				object-fit: cover;
+				margin-right: 2rem;
+			}
+		</style>
+		<script>
+			var config;
+			$.get('/oss/alive/config.json', function (res) {
+                debugger
+				config = res;
+				$('title').text(config.name+' - '+$('title').text())
+            })
+
+		</script>
+	</head>
+
+	<body>
+		<div class="topLine">
+			<input type="text" name="" placeholder="请输入关键字查询"  id="searchBox" value="" />
+			<button class="btn">搜索</button>
+		</div>
+		<script src="js/rem.js"></script>
+
+		<div id="newsZx" class="newsZx s1200 smargin">
+
+			<div class="productList">
+				<ul class="s1200 smargin">
+					
+				</ul>
+			</div>
+
+			<div class="clear"></div>
+			<!--<div class="paging">-->
+			<div class="box" id="box" style="margin-top: 8rem;margin-bottom: 2rem"></div>
+			<script>
+				var pageNm = '',
+				setTotalCount = 0;
+				var typeId = '',
+					No = 1;
+				var kw=$('#searchBox').val();
+				var sum = null;
+				$('.productList ul').html('');
+
+				//TODO 需要
+
+				function productAll(kw) {
+					$.ajax({
+						url: '/hospitals-sum',
+						type: 'get',
+						data: "kw=" + kw,
+						async: false,
+						ContentType: 'application/x-www-form-urlencoded',
+						success: function(res) {
+							console.log(res,res.code)
+							if(res.code == 0) {
+								setTotalCount = res.data.rowCount;
+								pageNm = Math.ceil(setTotalCount / 15);
+							} else {
+								alert(res.codeMsg)
+							}
+						}
+					})
+				}
+
+				function product(kw, No) {
+					$.ajax({
+						url: '/hospitals?pn=' + No + '&ps=15&kw=' + kw,
+						type: 'get',
+						//					data: "articleTypeId=20191126212316944583613981348711" + "&ps=15&pn=" + No,
+						async: false,
+						ContentType: 'application/x-www-form-urlencoded',
+						success: function(res) {
+							if(res.code == 0) {
+								$('.productList ul').html('')
+								for(var i = 0; i < res.data.rows.length; i++) {
+									$('.productList ul').append(`<li style="cursor:pointer;" onclick="location.href='./login-by-hospital.html?loginHospitalId=${res.data.rows[i].hospitalId}&loginHospitalName=${res.data.rows[i].name}'" id="${res.data.rows[i].hospitalId}"><img src="${res.data.rows[i].cover}"/><span >${res.data.rows[i].name}</span></li>`)
+								}
+							} else {
+								alert(res.codeMsg)
+							}
+						}
+					})
+				}
+				productAll(kw)
+				product(kw,1)
+				
+				$('#box').paging({
+//					kw = $('#searchBox').val();
+					initPageNo: 1, // 初始页码
+					totalPages: pageNm, //总页数
+					totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						console.log(page)
+						product(kw, page)
+					}
+				})
+			</script>
+
+			<!--<ul>-->
+			<!--<li>1</li>-->
+			<!--<li>2</li>-->
+			<!--<li>3</li>-->
+			<!--<li>4</li>-->
+			<!--<li>5</li>-->
+			<!--</ul>-->
+			<!--</div>-->
+			<div class="clear"></div>
+		</div>
+
+		<div class="clear"></div>
+		<!--<div class="footerEasy" style="margin-top: 2rem">
+			<div class="smargin s1200">
+				<span>电话：025-57727172</span>
+				<span>邮箱：zhonganyiliaoNJ@163.com</span>
+				<span>地址：南京市六合区宁六路606号千人计划研究院C栋6楼</span>
+			</div>
+			<div class="smargin s1200">
+				<img src="image/WechatIMG25 Copy.png" alt="" />
+			</div>
+		</div>-->
+		<!--<div style="width:100%;text-align: center;margin-top: 10px;margin-bottom: 10px"> <span>备案号: 苏ICP备19026634号</span>-->
+		</div>
+
+		<script>
+			$('body').on('click', '.topLine .btn', function() {
+				kw = $('#searchBox').val();
+				productAll(kw);
+				product(kw, 1);
+				$('#box').paging({
+					initPageNo: 1, // 初始页码
+					totalPages: pageNm, //总页数
+					totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+					slideSpeed: 600, // 缓动速度。单位毫秒
+					jump: true, //是否支持跳转
+					callback: function(page) { // 回调函数
+						console.log(page)
+						product(kw, page)
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>
