@@ -216,49 +216,6 @@
         }]
         ">
 
-        <input class="easyui-combobox" name="hospitalId" label="医院:" labelPosition="left" labelAlign="right" style="width:300px;" data-options="
-        valueField:'hospitalId',
-        textField:'name',
-        panelHeight:'auto',
-        mode:'remote',
-        onShowPanel:function(){
-            $(this).combobox('reload')
-        },
-        loader: function (param, success, error) {
-            debugger
-            param.kw=param.q;
-            param.ps = param.rows;
-            param.pn = param.page;
-            $.ajax({
-                url: '/hospital-maintain/hospitals',
-                type: 'get',
-                data: param,
-                success: function (data) {
-                    if (data.code != 0) {
-                        return false;
-                    } else {
-                        success(data.data);
-                    }
-
-                }
-            })
-        },
-        onChange:function(newValue, oldValue){
-            queryParam.hospitalId=newValue
-        },
-        loadFilter: function (data) {
-            debugger
-            return data.rows;
-        },
-        iconWidth:20,
-        icons:[{
-            iconCls:'icon-clear',
-            handler: function(e){
-                $(e.data.target).combobox('setValue','');
-            }
-        }]
-        ">
-
         <input class="easyui-combobox" name="doctorId" label="医生:" labelPosition="left" labelAlign="right" style="width:300px;" data-options="
         valueField:'doctorId',
         textField:'name',
@@ -269,10 +226,7 @@
         },
         loader: function (param, success, error) {
             debugger
-            if(!queryParam.hospitalId)
-                return
             param.kw=param.q;
-            param.hospitalId=queryParam.hospitalId;
             param.ps = param.rows;
             param.pn = param.page;
             $.ajax({

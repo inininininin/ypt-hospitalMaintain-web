@@ -123,7 +123,7 @@
         $.ajax({
                 type: 'post',
                 contentType:"application/octet-stream;charset=UTF-8",
-                url: '/upload-alive-stream?originalUrl=/oss/alive/user-protocol.html',
+                url: '/upload-stream?originalUrl=/oss/alive/user-protocol.html',
                 data:contentKindEditor.html(),
                 success: function (data) {
                     if (data.codeMsg)

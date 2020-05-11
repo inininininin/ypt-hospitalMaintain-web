@@ -50,7 +50,8 @@
     
     $.ajax({
         type: 'get',
-        url: `/hospital-maintain/nurse-${queryStringObject.nurseId}`,
+        url: `/hospital-maintain/nurse`,
+        data:{nurse:queryStringObject.nurseId},
         async: false,
         success: function (data) {
             debugger
@@ -252,7 +253,7 @@ function remove(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-static-file?' + $.param({ quality: 0.8 }),
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -301,7 +302,7 @@ function remove(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-static-file?' + $.param({ quality: 0.8 }),
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,

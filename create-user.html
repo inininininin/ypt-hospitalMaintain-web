@@ -165,7 +165,7 @@ function createConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-static-file?' + $.param({ quality: 0.8 }),
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -199,52 +199,7 @@ function createConfirm(){
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>医院&nbsp;</td>
-                    <td><input id="hospitalId" class="easyui-combobox"  style="width:100%;" data-options="
-                        valueField:'hospitalId',
-                        textField:'name',
-                        panelHeight:'auto',
-                        mode:'remote',
-                        onShowPanel:function(){
-                            $(this).combobox('reload')
-                        },
-                        loader: function (param, success, error) {
-                            debugger
-                            param.kw=param.q;
-                            param.ps = param.rows;
-                            param.pn = param.page;
-                            $.ajax({
-                                url: '/hospital-maintain/hospitals',
-                                type: 'get',
-                                data: param,
-                                success: function (data) {
-                                    if (data.code != 0) {
-                                        return false;
-                                    } else {
-                                        success(data.data);
-                                    }
                 
-                                }
-                            })
-                        },
-                        onChange:function(newValue, oldValue){
-                           user.hospitalId=newValue
-                        },
-                        loadFilter: function (data) {
-                            debugger
-                            return data.rows;
-                        },
-                        iconWidth:20,
-                        icons:[{
-                            iconCls:'icon-clear',
-                            handler: function(e){
-                                $(e.data.target).combobox('setValue','');
-                            }
-                        }]
-                        "></td>
-                </tr>
-               
                 <tr>
                     <td>类型&nbsp;</td>
                     <td><input id="type" class="easyui-combobox" style="width:100%" data-options="
@@ -372,53 +327,7 @@ function createConfirm(){
                             }" style="width:200px"></td>
                 </tr>
                
-                <tr>
-                    <td>排序号&nbsp;</td>
-                    <td><input id="orderNo" class="easyui-numberbox" style="width:100%" data-options="
-                                    prompt:'9999',
-                                    value:user.orderNo,
-                                    precision:2,
-                                    iconWidth:20,
-                                    icons:[{
-                                        iconCls:'icon-clear',
-                                        handler: function(e){
-                                            $(e.data.target).textbox('setValue','');
-                                        }
-                                    }],
-                                    onChange:function(newValue, oldValue){
-                                        user.orderNo=newValue
-                                    }" style="width:200px"></td>
-                </tr>
-                <tr>
-                    <td>创建时间&nbsp;</td>
-                    <td><input id="createTime" class="easyui-datetimebox" style="width:100%" data-options="
-                                        value:moment().format('YYYY-MM-DD H:mm:ss'),
-                                        editable:false,
-                                        icons:[{
-                                            iconCls:'icon-clear',
-                                            handler: function(e){
-                                                $(e.data.target).datetimebox('setValue','');
-                                            }
-                                        }],
-                                        onChange:function(newValue, oldValue){
-                                            user.createTime=newValue
-                                        }"></td>
-                </tr>
-                <tr>
-                    <td>更新时间&nbsp;</td>
-                    <td><input id="updateTime" class="easyui-datetimebox" style="width:100%" data-options="
-                                            value:moment().format('YYYY-MM-DD H:mm:ss'),
-                                            editable:false,
-                                            icons:[{
-                                                iconCls:'icon-clear',
-                                                handler: function(e){
-                                                    $(e.data.target).datetimebox('setValue','');
-                                                }
-                                            }],
-                                            onChange:function(newValue, oldValue){
-                                                user.updateTime=newValue
-                                            }"></td>
-                </tr>
+             
 
             </tbody>
         </table>

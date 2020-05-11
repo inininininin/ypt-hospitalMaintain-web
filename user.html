@@ -266,7 +266,7 @@ function remove(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-static-file?' + $.param({ quality: 0.8 }),
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -300,58 +300,7 @@ function remove(){
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>医院&nbsp;</td>
-                    <td><input id="hospitalId" class="easyui-combobox"  style="width:100%;" data-options="
-                        text:user.hospitalName,
-                        value:user.hospitalId,
-                        valueField:'hospitalId',
-                        textField:'name',
-                        panelHeight:'auto',
-                        mode:'remote',
-                        onShowPanel:function(){
-                            $(this).combobox('reload')
-                        },
-                        loader: function (param, success, error) {
-                            debugger
-                            param.kw=param.q;
-                            param.ps = param.rows;
-                            param.pn = param.page;
-                            $.ajax({
-                                url: '/hospital-maintain/hospitals',
-                                type: 'get',
-                                data: param,
-                                success: function (data) {
-                                    if (data.code != 0) {
-                                        return false;
-                                    } else {
-                                        success(data.data);
-                                    }
                 
-                                }
-                            })
-                        },
-                        onChange:function(newValue, oldValue){
-                           user.hospitalId=newValue
-                        },
-                        loadFilter: function (data) {
-                            debugger
-                            return data.rows;
-                        },
-                        iconWidth:20,
-                        icons:[{
-                            iconCls:'icon-clear',
-                            handler: function(e){
-                                $(e.data.target).combobox('setValue','');
-                            }
-                        },{
-                            iconCls:'icon-eye',
-                            handler: function(e){
-                                $(e.data.target).combobox('setValue','');
-                            }
-                        }]
-                        "></td>
-                </tr>
                 <tr>
                     <td>类型&nbsp;</td>
                     <td><input id="type" class="easyui-combobox" style="width:100%" data-options="
@@ -482,39 +431,7 @@ function remove(){
                                 user.remark=newValue
                             }" style="width:200px"></td>
                 </tr>
-                <tr>
-                    <td>冻结&nbsp;</td>
-                    <td><input id="frozen" class="easyui-combobox" style="width:100%" data-options="
-                                    value:user.frozen,
-                                    editable:false,panelHeight:'auto',
-                                    data:[
-                                    {
-                                         text: '否',
-                                         value: '0'
-                                     },{
-                                         text: '是',
-                                         value: '1'
-                                     }],
-                                     iconWidth:20,
-                                     icons:[{
-                                         iconCls:'icon-clear',
-                                         handler: function(e){
-                                             $(e.data.target).combobox('setValue','');
-                                         }
-                                     }],
-                                     onChange:function(newValue, oldValue){
-                                        user.frozen=newValue
-                                     }" /></td>
-                </tr>
-                <tr>
-                    <td>冻结原因&nbsp;</td>
-                    <td><input id="frozenReason" class="easyui-textbox" style="width:100%;height:200px;" data-options="
-                            value:user.frozenReason,
-                            multiline:true,
-                            onChange:function(newValue, oldValue){
-                                user.frozenReason=newValue
-                            }" style="width:200px"></td>
-                </tr>
+               
                 <tr>
                     <td>创建时间&nbsp;</td>
                     <td><input id="createTime" class="easyui-datetimebox" style="width:100%" data-options="
