@@ -20,7 +20,9 @@
     <link rel="stylesheet" type="text/css" href="./jquery-easyui-1.8.7/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui-1.8.7/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui-1.8.7/demo/demo.css">
-    <script type="text/javascript" src="./jquery-easyui-1.8.7/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="./jquery-easyui-1.8.7/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="./jquery-easyui-1.8.7/locale/easyui-lang-zh_CN.js"></script>
+
 
     <link rel="stylesheet" href="./jQueryViewer20160329/css/viewer.min.css">
     <script src="./jQueryViewer20160329/js/viewer.min.js"></script>
@@ -50,7 +52,8 @@
     
     $.ajax({
         type: 'get',
-        url: `/hospital-maintain/office-${queryStringObject.officeId}`,
+        url: `/hospital-maintain/office`,
+        data:{officeId:queryStringObject.officeId},
         async: false,
         success: function (data) {
             debugger
@@ -127,8 +130,8 @@ function remove(){
         
         $.ajax({
                             type: 'post',
-                            url: '/hospital-maintain/update-office',
-                            data: {officeId:office.officeId,del:1},
+                            url: '/hospital-maintain/delete-office-list',
+                            data: {officeId:office.officeId,expectedRowCount:1},
                             beforeSend:function(){
                                 this.layerIndex=layer.load(2)
                             },
@@ -286,75 +289,7 @@ function remove(){
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>视频&nbsp;</td>
-                    <td>
-                        <div id="video">
-                            <video class="value" style="width: 200px;height: 200px;display:none;" controls="controls" ></video>
-                            <input type="file" style="display:none;" onchange="
-                            javascript:
-                            debugger
-                           
-                            var target = this;
-                                if(this.files.length>0){
-                                    var file = this.files[0];
-                                    var fd = new FormData()
-                                    fd.append('file', file);
-                                    $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
-                                        type: 'POST',
-                                        data: fd,
-                                        cache: false,
-                                        processData: false,
-                                        contentType: false,
-                                        async: true,
-                                        beforeSend:function(){
-                                            this.layerIndex=layer.load(2)
-                                        },
-                                        success: function (res) {
-                                            if (res.codeMsg)
-                                                layer.alert(res.codeMsg)
-                                            if (res.code == 0) {
-                                                office.video=res.data.url 
-                                                $(target).prev().attr('src',office.video).show()
-                                            }
-                                            target.value=null
-                                            
-                                        },
-                                        complete:function(){
-                                            layer.close(this.layerIndex)
-                                        }
-                                    })
-                                }
-                        " />
-                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
-                                style="vertical-align: text-bottom;"
-                                onclick="$(this).prev().prev().attr('src',null).hide();office.video='';"></a>
-
-                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
-                                style="vertical-align: text-bottom;" onclick="debugger;$(this).prev().prev().click()"></a>
-                        </div>
-                    </td>
-                </tr>
-                
-       
-                <tr>
-                    <td>标签&nbsp;</td>
-                    <td><input id="tag" class="easyui-textbox" style="width:100%" data-options="
-                        value:office.tag,
-                        prompt:'英文逗号间隔, 如: 标签1,标签2,标签3',
-                        iconWidth:20,
-                        icons:[{
-                            iconCls:'icon-clear',
-                            handler: function(e){
-                                debugger
-                                $(e.data.target).textbox('setValue','');
-                            }
-                        }],
-                        onChange:function(newValue, oldValue){
-                            office.tag=newValue
-                        }" style="width:200px"></td>
-                </tr>
+               
                 <tr>
                     <td>简介&nbsp;</td>
                     <td><input id="intro" class="easyui-textbox" style="width:100%;height:200px;" data-options="
@@ -364,104 +299,11 @@ function remove(){
                                 office.intro=newValue
                             }" style="width:200px"></td>
                 </tr>
-                <tr>
-                    <td>医院&nbsp;</td>
-                    <td><input id="hospitalId" class="easyui-combobox"  style="width:100%;" data-options="
-                        text:office.hospitalName,
-                        value:office.hospitalId,
-                        valueField:'hospitalId',
-                        textField:'name',
-                        panelHeight:'auto',
-                        mode:'remote',
-                        onShowPanel:function(){
-                            $(this).combobox('reload')
-                        },
-                        loader: function (param, success, error) {
-                            debugger
-                            param.kw=param.q;
-                            param.ps = param.rows;
-                            param.pn = param.page;
-                            $.ajax({
-                                url: '/hospital-maintain/hospitals',
-                                type: 'get',
-                                data: param,
-                                success: function (data) {
-                                    if (data.code != 0) {
-                                        return false;
-                                    } else {
-                                        success(data.data);
-                                    }
-                
-                                }
-                            })
-                        },
-                        onChange:function(newValue, oldValue){
-                           office.hospitalId=newValue
-                        },
-                        loadFilter: function (data) {
-                            debugger
-                            return data.rows;
-                        },
-                        iconWidth:20,
-                        icons:[{
-                            iconCls:'icon-clear',
-                            handler: function(e){
-                                $(e.data.target).combobox('setValue','');
-                            }
-                        },{
-                            iconCls:'icon-eye',
-                            handler: function(e){
-                                $(e.data.target).combobox('setValue','');
-                            }
-                        }]
-                        "></td>
-                </tr>
-                <tr>
-                    <td>备注&nbsp;</td>
-                    <td><input id="remark" class="easyui-textbox" style="width:100%;height:200px;" data-options="
-                            value:office.remark,
-                            multiline:true,
-                            onChange:function(newValue, oldValue){
-                                office.remark=newValue
-                            }" style="width:200px"></td>
-                </tr>
-                <tr>
-                    <td>冻结&nbsp;</td>
-                    <td><input id="frozen" class="easyui-combobox" style="width:100%" data-options="
-                                    value:office.frozen,
-                                    editable:false,panelHeight:'auto',
-                                    data:[
-                                    {
-                                         text: '否',
-                                         value: '0'
-                                     },{
-                                         text: '是',
-                                         value: '1'
-                                     }],
-                                     iconWidth:20,
-                                     icons:[{
-                                         iconCls:'icon-clear',
-                                         handler: function(e){
-                                             $(e.data.target).combobox('setValue','');
-                                         }
-                                     }],
-                                     onChange:function(newValue, oldValue){
-                                        office.frozen=newValue
-                                     }" /></td>
-                </tr>
-                <tr>
-                    <td>冻结原因&nbsp;</td>
-                    <td><input id="frozenReason" class="easyui-textbox" style="width:100%;height:200px;" data-options="
-                            value:office.frozenReason,
-                            multiline:true,
-                            onChange:function(newValue, oldValue){
-                                office.frozenReason=newValue
-                            }" style="width:200px"></td>
-                </tr>
+               
                 <tr>
                     <td>排序号&nbsp;</td>
-                    <td><input id="orderNo" class="easyui-numberbox" style="width:100%" data-options="
-                                    value:office.orderNo,
+                    <td><input id="orderNoInHospital" class="easyui-numberbox" style="width:100%" data-options="
+                                    value:office.orderNoInHospital,
                                     precision:2,
                                     iconWidth:20,
                                     icons:[{
@@ -471,7 +313,7 @@ function remove(){
                                         }
                                     }],
                                     onChange:function(newValue, oldValue){
-                                        office.orderNo=newValue
+                                        office.orderNoInHospital=newValue
                                     }" style="width:200px"></td>
                 </tr>
                 <tr>
@@ -491,18 +333,7 @@ function remove(){
                 </tr>
                 <tr>
                     <td>更新时间&nbsp;</td>
-                    <td><input id="updateTime" class="easyui-datetimebox" style="width:100%" data-options="
-                                            value:moment(office.updateTime).format('YYYY-MM-DD H:mm:ss'),
-                                            editable:false,
-                                            icons:[{
-                                                iconCls:'icon-clear',
-                                                handler: function(e){
-                                                    $(e.data.target).datetimebox('setValue','');
-                                                }
-                                            }],
-                                            onChange:function(newValue, oldValue){
-                                                office.updateTime=newValue
-                                            }"></td>
+                <td><span id="updateTime" style="padding-left:5px;"></span><img src="" onerror="if(!$('#updateTime').text()) {$('#updateTime').text(moment(office.updateTime).format('YYYY-MM-DD H:mm:ss'))}"/></td>
                 </tr>
 
             </tbody>

@@ -18,7 +18,9 @@
     <link rel="stylesheet" type="text/css" href="./jquery-easyui-1.8.7/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui-1.8.7/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui-1.8.7/demo/demo.css">
-    <script type="text/javascript" src="./jquery-easyui-1.8.7/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="./jquery-easyui-1.8.7/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="./jquery-easyui-1.8.7/locale/easyui-lang-zh_CN.js"></script>
+
 
     <link rel="stylesheet" href="./jQueryViewer20160329/css/viewer.min.css">
     <script src="./jQueryViewer20160329/js/viewer.min.js"></script>
@@ -98,12 +100,12 @@
                 queryParam.ps = param.rows;
                 queryParam.pn = param.page;
                 $.ajaxSettings.async=false
-                $.get('/hospital-maintain/users', queryParam, function (data) {
+                $.get('/hospital-maintain/users',  Object.assign(param, queryParam), function (data) {
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         currentRows = data.data.rows;
-                        $.get('/hospital-maintain/users-sum', queryParam, function (data) {
+                        $.get('/hospital-maintain/users-sum',  Object.assign(param, queryParam), function (data) {
                             if (data.codeMsg)
                                 layer.alert(data.codeMsg);
                             if (data.code == 0) {
@@ -369,8 +371,6 @@ onChange:function(newValue, oldValue){
             <table id="datagrid" class="easyui-datagrid" style="width:100%;min-height:420px">
             </table>
             <div id="datagridFoot" style="padding:2px 5px;">
-                <a href="JavaScript:void(0)" class="easyui-linkbutton" title="创建" iconCls="icon-add" plain="true"
-                    onclick=" common.newTab('创建用户','create-user.html')">创建</a>
                 <a href="JavaScript:void(0)" class="easyui-linkbutton" title="全部删除" iconCls="icon-edit" plain="true"
                     onclick="
                         var ids = $($('#datagrid').datagrid('getChecked')).oneall('attrs','userId');
