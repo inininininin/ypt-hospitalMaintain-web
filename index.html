@@ -64,7 +64,8 @@
             if (data.code == 0) {
                 login=data.data
                 localStorage.setItem('hospitalMaintainLogin', login)
-               
+                localStorage.setItem('hospitalMaintainLogin.hospitalId', login.hospitalId)
+                localStorage.setItem('hospitalMaintainLogin.type', login.type)
             } else {
                 layer.confirm('未登录，是否去登录?', { icon: 7, title: '提示' }, function (index) {
                     location.href = "./login.html"

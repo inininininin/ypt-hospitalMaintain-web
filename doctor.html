@@ -217,7 +217,7 @@ function remove(){
         <font>loading···</font>
     </div>
 
-        <table id="datagrid"  data-options="singleSelect:true,height:'700px'">
+        <table id="datagrid"  data-options="singleSelect:true">
             <thead>
                 <tr>
                     <th data-options="field:'name',width:200,align:'right'">属性&nbsp;</th>
@@ -381,14 +381,11 @@ function remove(){
                         },
                         loader: function (param, success, error) {
                             debugger
-                            if(!doctor.hospitalId)
-                                return;
                             param.kw=param.q;
-                            param.hospitalId=doctor.hospitalId
                             param.ps = param.rows;
                             param.pn = param.page;
                             $.ajax({
-                                url: '/hospital-maintain/offices',
+                                url: '/hospital-maintain/office-list',
                                 type: 'get',
                                 data: param,
                                 success: function (data) {

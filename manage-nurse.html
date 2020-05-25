@@ -148,7 +148,8 @@
     <div id="datagridToolBar" style="padding:2px 5px;">
         <a href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-search"
         onclick="$('#datagrid').datagrid('load').datagrid('clearChecked');">查询</a>
-            
+        <form id="datagridToolBar-form" style="margin-top:10px;">  
+            <div style="display:inline-block;">
             <input id="queryParam.kw" class="easyui-textbox" label="关键字:" labelPosition="left" labelAlign="right" data-options="
         iconWidth:20,
         icons:[{
@@ -161,8 +162,8 @@
             debugger
             queryParam.kw=newValue
         }" style="width:300px" />
-
-       
+            </div>
+        <div style="display:inline-block;">
             <input id="queryParam.createTimeFrom" class="easyui-datebox" label="创建时间:" labelPosition="left" labelAlign="right" style="width:300px" data-options="
         editable:false,
         icons:[{
@@ -175,7 +176,8 @@
         debugger
         queryParam.createTimeFrom=newValue
     }">
-
+</div>
+<div style="display:inline-block;">
     <input id="queryParam.createTimeTo" class="easyui-datebox" label="To:" labelPosition="left" labelAlign="right" style="width:300px" data-options="
     editable:false,
     icons:[{
@@ -188,7 +190,8 @@ onChange:function(newValue, oldValue){
     debugger
     queryParam.createTimeTo=newValue
 }">
-
+</div>
+<div style="display:inline-block;">
             <input id="queryParam.frozen" class="easyui-combobox" label="冻结:" labelPosition="left" labelAlign="right" style="width:300px" data-options="editable:false,panelHeight:'auto',value:'',data:[
    {
                                  text: '否',
@@ -209,6 +212,8 @@ onChange:function(newValue, oldValue){
         this
         queryParam.frozen=newValue
     }" />
+</div>
+</form>
 </div>
             <table id="datagrid" class="easyui-datagrid" style="width:100%;min-height:420px">
             </table>

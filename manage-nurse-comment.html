@@ -62,7 +62,9 @@
                         return arr ? `<span class="image-previewer"><img src='${arr[0]}' style='width:50px;cursor:pointer;' data-original='${arr[0]}'/>${str}</span>` : value
                     }
                 },
-                { field: 'star', title: '星', width: 50, align: 'right', halign: 'center' , sortable: true},
+                { field: 'star', title: '评分', width: 50, align: 'right', halign: 'center' , sortable: true, formatter: function (value, row, index) {
+                        return value == 1 ? '不满意' : value == 2 ? '一般' :value == 3 ? '满意' :'';
+                    }},
                 { field: 'userName', title: '用户', width: 200, align: 'left', halign: 'center' },
                 { field: 'nurseName', title: '姓名', width: 200, align: 'left', halign: 'center' },
                 { field: 'hospitalName', title: '医院', width: 200, align: 'left', halign: 'center' },
@@ -162,6 +164,8 @@
         <a href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-search"
         onclick="$('#datagrid').datagrid('load').datagrid('clearChecked');">查询</a>
             
+        <form id="datagridToolBar-form" style="margin-top:10px;">  
+            <div style="display:inline-block;">
             <input id="queryParam.kw" class="easyui-textbox" label="关键字:" labelPosition="left" labelAlign="right" data-options="
         iconWidth:20,
         icons:[{
@@ -174,6 +178,8 @@
             debugger
             queryParam.kw=newValue
         }" style="width:300px" />
+    </div>
+    <div style="display:inline-block;">
 
         <input class="easyui-combobox" name="userId" label="用户:" labelPosition="left" labelAlign="right" style="width:300px;" data-options="
         valueField:'userId',
@@ -217,6 +223,8 @@
             }
         }]
         ">
+</div>
+<div style="display:inline-block;">
 
         <input class="easyui-combobox" name="nurseId" label="医护:" labelPosition="left" labelAlign="right" style="width:300px;" data-options="
         valueField:'nurseId',
@@ -260,32 +268,33 @@
             }
         }]
         ">
-
-        <input id="queryParam.starFrom" class="easyui-numberbox" label="星星:" labelPosition="left" labelAlign="right" data-options="
-        iconWidth:20,
-        icons:[{
-            iconCls:'icon-clear',
-            handler: function(e){
-                $(e.data.target).textbox('setValue','');
-            }
-        }],
-        onChange:function(newValue, oldValue){
-            debugger
-            queryParam.starFrom=newValue
-        }" style="width:300px" />
-
-        <input id="queryParam.starTo" class="easyui-numberbox" label="To:" labelPosition="left" labelAlign="right" data-options="
-        iconWidth:20,
-        icons:[{
-            iconCls:'icon-clear',
-            handler: function(e){
-                $(e.data.target).textbox('setValue','');
-            }
-        }],
-        onChange:function(newValue, oldValue){
-            debugger
-            queryParam.starTo=newValue
-        }" style="width:300px" />
+</div>
+<div style="display:inline-block;">
+    <input id="queryParam.frozen" class="easyui-combobox" label="评分:" labelPosition="left" labelAlign="right" style="width:300px" data-options="editable:false,panelHeight:'auto',value:'',data:[
+    {
+                                  text: '不满意',
+                                  value: '1'
+                              },{
+                                  text: '一般',
+                                  value: '2'
+                              },{
+                                text: '满意',
+                                value: '3'
+                            }],
+     iconWidth:20,
+     icons:[{
+         iconCls:'icon-clear',
+         handler: function(e){
+             $(e.data.target).combobox('setValue','');
+         }
+     }],
+     onChange:function(newValue, oldValue){
+         debugger
+         this
+         queryParam.star=newValue
+     }" />
+</div>
+<div style="display:inline-block;">
 
             <input id="queryParam.createTimeFrom" class="easyui-datebox" label="创建时间:" labelPosition="left" labelAlign="right" style="width:300px" data-options="
         editable:false,
@@ -299,6 +308,8 @@
         debugger
         queryParam.createTimeFrom=newValue
     }">
+</div>
+<div style="display:inline-block;">
 
     <input id="queryParam.createTimeTo" class="easyui-datebox" label="To:" labelPosition="left" labelAlign="right" style="width:300px" data-options="
     editable:false,
@@ -312,6 +323,8 @@ onChange:function(newValue, oldValue){
     debugger
     queryParam.createTimeTo=newValue
 }">
+</div>
+<div style="display:inline-block;">
 
             <input id="queryParam.frozen" class="easyui-combobox" label="冻结:" labelPosition="left" labelAlign="right" style="width:300px" data-options="editable:false,panelHeight:'auto',value:'',data:[
    {
@@ -333,6 +346,8 @@ onChange:function(newValue, oldValue){
         this
         queryParam.frozen=newValue
     }" />
+</div>
+</form>
 </div>
             <table id="datagrid" class="easyui-datagrid" style="width:100%;min-height:420px">
             </table>

@@ -47,7 +47,49 @@
             columns: [[
                 {
                     field: 'cover', title: '封面', width: 60, align: 'center', halign: 'center', formatter: function (value, row, index) {
-                        return value ? `<span class="image-previewer"><img src='${value}' style='width:50px;cursor:pointer;' data-original='${value}'/></span>` : value
+                        return value ? `<span class="image-previewer"><img src='${value}' style='width:50px;cursor:pointer;' /></span>` : value
+                    }
+                },
+                {
+                    field: 'doctorId', title: '二维码', width: 60, align: 'center', halign: 'center', formatter: function (value, row, index) {
+                        debugger
+                        var cQ = $(`<canvas  width="280" height="340" style="display:block;"></canvas>`).appendTo('body');
+                        var c=cQ[0];
+                        var ctx=c.getContext("2d");
+                        ctx.clearRect(0,0,c.width,c.height);  
+                        ctx.fillStyle="#FFFFFF";
+                        ctx.fillRect(0,0,280,340);
+
+                        row.cover = row.cover?row.cover:'./image/head.png'
+                        var coverImg = $(`<img src='${row.cover}' style="display:none;" />`).appendTo('body')[0]
+                        ctx.drawImage(coverImg,5,10,30,30);
+                        
+                        ctx.fillStyle="#000000";
+                        ctx.fillText(row.name,50,20);
+                        
+                        ctx.fillStyle="#000000";
+                        ctx.fillText(row.hospitalName,50,40);
+
+                        ctx.moveTo (0,60);       //设置起点状态
+                        ctx.lineTo (280,60);       //设置末端状态
+                        ctx.lineWidth = 1;          //设置线宽状态
+                        ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
+                        ctx.stroke();
+
+                        var qrCodeImg = $(`<img src='/wxminqrcode?path=pages%2FevaNowShare%2FevaNowShare%3Ftype%3D1%26isfrom%3D1%26id%3D${value}%26hospitalid%3D20200227134140994943847138258498&width=280' style="display:none;"/>`).appendTo('body')[0]
+                        ctx.drawImage(qrCodeImg,0,60,280,280);
+
+                        
+                        var dataUrl = null;
+                        try{
+                            dataUrl =  c.toDataURL("image/jpeg", 1.0)
+                        }catch (e) {
+
+                        }
+                        console.log(dataUrl)
+                        cQ.remove()
+
+                        return `<span class="image-previewer"><img src='${dataUrl||''}' style='width:50px;cursor:pointer;' /></span>`
                     }
                 },
                 { field: 'remark', title: '备注', width: 200, align: 'left', halign: 'center' },
@@ -93,7 +135,6 @@
                 debugger
                 queryParam.ps = param.rows;
                 queryParam.pn = param.page;
-                $.ajaxSettings.async=false
                 $.get('/hospital-maintain/doctors', queryParam, function (data) {
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
@@ -111,10 +152,9 @@
 
                     }
                 })
-                $.ajaxSettings.async=true
             }, onLoadSuccess: function () {
                 $('.image-previewer').viewer({
-                    url: 'data-original',
+                    url: 'src',
                 })
             }
         });
@@ -141,12 +181,12 @@
         <font>loading···</font>
     </div>
 
-
    
     <div id="datagridToolBar" style="padding:2px 5px;">
         <a href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-search"
         onclick="$('#datagrid').datagrid('load').datagrid('clearChecked');">查询</a>
-            
+        <form id="datagridToolBar-form" style="margin-top:10px;">  
+            <div style="display:inline-block;">
             <input id="queryParam.kw" class="easyui-textbox" label="关键字:" labelPosition="left" labelAlign="right" data-options="
         iconWidth:20,
         icons:[{
@@ -159,8 +199,8 @@
             debugger
             queryParam.kw=newValue
         }" style="width:300px" />
-
-
+</div>
+<div style="display:inline-block;">
             <input id="queryParam.createTimeFrom" class="easyui-datebox" label="创建时间:" labelPosition="left" labelAlign="right" style="width:300px" data-options="
         editable:false,
         icons:[{
@@ -173,7 +213,8 @@
         debugger
         queryParam.createTimeFrom=newValue
     }">
-
+</div>
+<div style="display:inline-block;">
     <input id="queryParam.createTimeTo" class="easyui-datebox" label="To:" labelPosition="left" labelAlign="right" style="width:300px" data-options="
     editable:false,
     icons:[{
@@ -186,7 +227,8 @@ onChange:function(newValue, oldValue){
     debugger
     queryParam.createTimeTo=newValue
 }">
-
+</div>
+<div style="display:inline-block;">
             <input id="queryParam.frozen" class="easyui-combobox" label="冻结:" labelPosition="left" labelAlign="right" style="width:300px" data-options="editable:false,panelHeight:'auto',value:'',data:[
    {
                                  text: '否',
@@ -207,6 +249,8 @@ onChange:function(newValue, oldValue){
         this
         queryParam.frozen=newValue
     }" />
+</div>
+</form>
 </div>
             <table id="datagrid" class="easyui-datagrid" style="width:100%;min-height:420px">
             </table>
