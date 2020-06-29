@@ -40,8 +40,10 @@
 
     <script>
         var login,projectConfig;
-
-      
+		var loginHospitalId= queryStringObject.loginHospitalId
+		var loginHospitalName= queryStringObject.loginHospitalName
+		localStorage.setItem('loginHospitalId',loginHospitalId)
+		localStorage.setItem('loginHospitalName',loginHospitalName)
         $(document).ready(function () {
             debugger
             $.get('/oss/alive/config.json',function(res){
@@ -68,7 +70,8 @@
                 localStorage.setItem('hospitalMaintainLogin.type', login.type)
             } else {
                 layer.confirm('未登录，是否去登录?', { icon: 7, title: '提示' }, function (index) {
-                    location.href = "./login.html"
+                    // location.href = "./login.html"
+					location.href = './login-by-hospital.html?loginHospitalId='+loginHospitalId+'&loginHospitalName='+loginHospitalName;
                     layer.close(index);
                 });
             }
@@ -95,7 +98,8 @@
                     onClick: function (e, treeId, treeNode) {
                         if (treeNode.name == '退出登录') {
                             $.post('/hospital-maintain/logout',function(){
-                                location.href = './login.html';
+                                // location.href = './login.html';
+								location.href = './login-by-hospital.html?loginHospitalId='+loginHospitalId+'&loginHospitalName='+loginHospitalName;
                             })
                             return;
                         }
