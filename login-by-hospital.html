@@ -115,20 +115,31 @@
 
         var queryStringObject = common.queryStringObject();
 
+        function GetQueryString(name) {
+            debugger
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            //var r = window.location.search.substr(1).match(reg);
+            var r = window.location.href.substr(window.location.href.indexOf('?')+1).match(reg);
+            if (r != null)return unescape(r[2]);
+            return null;
+        }
         
+            var login,projectConfig;
+        	var loginHospitalId= GetQueryString('loginHospitalId')
+        	var loginHospitalName= GetQueryString('loginHospitalName')
 
         $.get('/login-refresh', function (data) {
             if (data.code == 0) {
                 layer.msg('已登录, 跳转中...');
                 localStorage.setItem('hospitalMaintainLogin', data.data)
-                location.href = './index.html';
+                location.href = './index.html?loginHospitalId='+loginHospitalId//+'&loginHospitalName='+encodeURIComponent(loginHospitalName);
             }
         })
 
         
         $(document).ready(function () {
             debugger
-            $('#loginHospitalName').text(queryStringObject.loginHospitalName)
+            // $('#loginHospitalName').text(queryStringObject.loginHospitalName)
 
             $.get('/oss/alive/config.json', function (res) {
                 debugger
@@ -160,11 +171,21 @@
             if (data.code == 0) {
                 layer.msg('已登录, 跳转中...');
                 localStorage.setItem('hospitalMaintainLogin', data.data)
-                location.href = './index.html';
+                location.href = './index.html?loginHospitalId='+loginHospitalId//+'&loginHospitalName='+encodeURIComponent(loginHospitalName);
             }
         })
 
-
+		$.ajax({
+		    url:'/hospital-maintain/hospital-name',
+		    type:'get',
+		    data:{ hospitalId:queryStringObject.loginHospitalId},
+			success:function(res){
+				if (data.code == 0) {
+				   $('#loginHospitalName').text(data)
+				}
+			}
+				
+		})
 
 
     </script>
@@ -213,6 +234,8 @@
                                             this.layerIndex=layer.load(2)
                                         },
                  success:function(data){
+					 console.log(1111+encodeURIComponent(loginHospitalName))
+					 debugger
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
@@ -227,8 +250,8 @@
                                     layer.alert(data.codeMsg);
                                 if (data.code == 0) {
                                     layer.msg('登录成功');
-                                    localStorage.setItem('hospitalMaintainLogin',data.data)
-                                    location.href = './index.html';
+                                    localStorage.setItem('hospitalMaintainLogin',data.data);
+                                    location.href = './index.html?loginHospitalId='+loginHospitalId;
                                 }
                             },
                                 complete:function(){
