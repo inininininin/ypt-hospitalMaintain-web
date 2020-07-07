@@ -179,9 +179,9 @@
 		    url:'/hospital-maintain/hospital-name',
 		    type:'get',
 		    data:{ hospitalId:queryStringObject.loginHospitalId},
-			success:function(res){
+			success:function(data){
 				if (data.code == 0) {
-				   $('#loginHospitalName').text(data)
+				   $('#loginHospitalName').text(data.data.hospitalName)
 				}
 			}
 				
