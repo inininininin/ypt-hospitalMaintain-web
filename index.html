@@ -39,10 +39,23 @@
     </style>
 
     <script>
+	
+	//获取url参数
+	function GetQueryString(name) {
+	    debugger
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	    //var r = window.location.search.substr(1).match(reg);
+	    var r = window.location.href.substr(window.location.href.indexOf('?')+1).match(reg);
+	    if (r != null)return unescape(r[2]);
+	    return null;
+	}
+	
         var login,projectConfig;
-        var queryStringObject = common.queryStringObject();
-		var loginHospitalId= queryStringObject.loginHospitalId
-		var loginHospitalName= queryStringObject.loginHospitalName
+
+		var loginHospitalId= GetQueryString('loginHospitalId')
+		var loginHospitalName= GetQueryString('loginHospitalName')
+		console.log(loginHospitalId)
+
 		localStorage.setItem('loginHospitalId',loginHospitalId)
 		localStorage.setItem('loginHospitalName',loginHospitalName)
         $(document).ready(function () {
@@ -72,7 +85,7 @@
             } else {
                 layer.confirm('未登录，是否去登录?', { icon: 7, title: '提示' }, function (index) {
                     // location.href = "./login.html"
-					location.href = './login-by-hospital.html?loginHospitalId='+loginHospitalId+'&loginHospitalName='+loginHospitalName;
+					location.href = './login-by-hospital.html?loginHospitalId='+localStorage.getItem('loginHospitalId')//+'&loginHospitalName='+encodeURIComponent(localStorage.getItem('loginHospitalName'));
                     layer.close(index);
                 });
             }
@@ -100,7 +113,7 @@
                         if (treeNode.name == '退出登录') {
                             $.post('/hospital-maintain/logout',function(){
                                 // location.href = './login.html';
-								location.href = './login-by-hospital.html?loginHospitalId='+loginHospitalId+'&loginHospitalName='+loginHospitalName;
+location.href = './login-by-hospital.html?loginHospitalId='+localStorage.getItem('loginHospitalId')//+'&loginHospitalName='+encodeURIComponent(localStorage.getItem('loginHospitalName'));
                             })
                             return;
                         }
