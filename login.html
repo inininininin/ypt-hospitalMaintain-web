@@ -121,7 +121,7 @@
             });
         }
 
-        $.get('/ypt/login-refresh', function (data) {
+        $.get('/ypt/user/login-refresh', function (data) {
             if (data.code == 0) {
                 layer.msg('已登录, 跳转中...');
                 localStorage.setItem('hospitalMaintainLogin', data.data)
@@ -160,7 +160,7 @@
             }
         });
 
-        $.post('/ypt/login-refresh', function (data) {
+        $.post('/ypt/user/login-refresh', function (data) {
             if (data.code == 0) {
                 layer.msg('已登录, 跳转中...');
                 localStorage.setItem('hospitalMaintainLogin', data.data)
@@ -210,7 +210,7 @@
             <button id="enterClick" onclick=" 
 
             $.ajax({
-                url:'/ypt/login',
+                url:'/ypt/user/login',
                 type:'post',
                 data:{ loginHospitalId:queryStringObject.loginHospitalId,account: account, password: password },
                 beforeSend:function(){
@@ -221,7 +221,7 @@
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         $.ajax(
-                            {url:'/ypt/login-refresh',
+                            {url:'/ypt/user/login-refresh',
                             type:'post',
                             beforeSend:function(){
                                             this.layerIndex=layer.load(2)
