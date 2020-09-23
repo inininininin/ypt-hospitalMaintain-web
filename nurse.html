@@ -52,7 +52,7 @@
     
     $.ajax({
         type: 'get',
-        url: `/hospital-maintain/nurse`,
+        url: `/ypt/hospital-maintain/nurse`,
         data:{nurseId:queryStringObject.nurseId},
         async: false,
         success: function (data) {
@@ -97,7 +97,7 @@ function updateConfirm(){
        
         $.ajax({
                             type: 'post',
-                            url: '/hospital-maintain/update-nurse',
+                            url: '/ypt/hospital-maintain/update-nurse',
                             data: nurse,
                             beforeSend:function(){
                                 this.layerIndex=layer.load(2)
@@ -130,7 +130,7 @@ function remove(){
         
         $.ajax({
                             type: 'post',
-                            url: '/hospital-maintain/update-nurse',
+                            url: '/ypt/hospital-maintain/update-nurse',
                             data: {nurseId:nurse.nurseId,del:1},
                             beforeSend:function(){
                                 this.layerIndex=layer.load(2)
@@ -167,7 +167,7 @@ function remove(){
 
     //         $.ajax({
     //             type: 'get',
-    //             url: `/hospital-maintain/nurse-article/${rowPad.param.nurseArticleId}`,
+    //             url: `/ypt/hospital-maintain/nurse-article/${rowPad.param.nurseArticleId}`,
     //             async: false,
     //             data: { token: rowPad.param.token },
     //             success: function (data) {
@@ -189,7 +189,7 @@ function remove(){
     //     rowAlter: function () {
     //         $.ajax({
     //             type: 'post',
-    //             url: '/hospital-maintain/nurse-article-alter',
+    //             url: '/ypt/hospital-maintain/nurse-article-alter',
     //             data: Object.assign({ token: rowPad.param.token, nurseArticleId: rowPad.param.nurseArticleId, content: rowPad.contentKindEditor.html() }, rowPad.row),
     //             success: function (data) {
     //                 if (data.codeMsg)

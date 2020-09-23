@@ -128,7 +128,7 @@
         	var loginHospitalId= GetQueryString('loginHospitalId')
         	var loginHospitalName= GetQueryString('loginHospitalName')
 
-        $.get('/login-refresh', function (data) {
+        $.get('/ypt/login-refresh', function (data) {
             if (data.code == 0) {
                 layer.msg('已登录, 跳转中...');
                 localStorage.setItem('hospitalMaintainLogin', data.data)
@@ -167,7 +167,7 @@
             }
         });
 
-        $.post('/hospital-maintain/login-refresh', function (data) {
+        $.post('/ypt/login-refresh', function (data) {
             if (data.code == 0) {
                 layer.msg('已登录, 跳转中...');
                 localStorage.setItem('hospitalMaintainLogin', data.data)
@@ -176,7 +176,7 @@
         })
 
 		$.ajax({
-		    url:'/hospital-maintain/hospital-name',
+		    url:'/ypt/hospital-maintain/hospital-name',
 		    type:'get',
 		    data:{ hospitalId:queryStringObject.loginHospitalId},
 			success:function(data){
@@ -227,7 +227,7 @@
             <button id="enterClick" onclick=" 
 
             $.ajax({
-                url:'/hospital-maintain/login',
+                url:'/ypt/login',
                 type:'post',
                 data:{ loginHospitalId:queryStringObject.loginHospitalId,account: account, password: password },
                 beforeSend:function(){
@@ -240,7 +240,7 @@
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         $.ajax(
-                            {url:'/hospital-maintain/login-refresh',
+                            {url:'/ypt/login-refresh',
                             type:'post',
                             beforeSend:function(){
                                             this.layerIndex=layer.load(2)

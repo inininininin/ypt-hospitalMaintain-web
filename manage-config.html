@@ -85,12 +85,12 @@
                 queryParam.ps = param.rows;
                 queryParam.pn = param.page;
                 $.ajaxSettings.async=false
-                $.get('/hospital-maintain/configs', queryParam, function (data) {
+                $.get('/ypt/hospital-maintain/configs', queryParam, function (data) {
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         currentRows = data.data.rows;
-                        $.get('/hospital-maintain/configs-sum', queryParam, function (data) {
+                        $.get('/ypt/hospital-maintain/configs-sum', queryParam, function (data) {
                             if (data.codeMsg)
                                 layer.alert(data.codeMsg);
                             if (data.code == 0) {

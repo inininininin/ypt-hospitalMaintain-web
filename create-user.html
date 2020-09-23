@@ -79,7 +79,7 @@ function createConfirm(){
     layer.confirm('确认创建吗?',function(){
         $.ajax({
                             type: 'post',
-                            url: '/hospital-maintain/create-user',
+                            url: '/ypt/hospital-maintain/create-user',
                             data: user,
                             beforeSend:function(){
                                             this.layerIndex=layer.load(2)
@@ -245,7 +245,7 @@ function createConfirm(){
                             param.ps = param.rows;
                             param.pn = param.page;
                             $.ajax({
-                                url: '/hospital-maintain/doctors',
+                                url: '/ypt/hospital-maintain/doctors',
                                 type: 'get',
                                 data: param,
                                 success: function (data) {
@@ -290,7 +290,7 @@ function createConfirm(){
                             param.ps = param.rows;
                             param.pn = param.page;
                             $.ajax({
-                                url: '/hospital-maintain/nurses',
+                                url: '/ypt/hospital-maintain/nurses',
                                 type: 'get',
                                 data: param,
                                 success: function (data) {

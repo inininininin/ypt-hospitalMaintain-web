@@ -77,7 +77,7 @@ function updateConfirm(){
        
                          $.ajax({
                             type: 'post',
-                            url: '/hospital-maintain/update-nurses',
+                            url: '/ypt/hospital-maintain/update-nurses',
                             data: $.extend({},nurse,queryStringObject),
                             beforeSend:function(){
                                 this.layerIndex=layer.load(2)

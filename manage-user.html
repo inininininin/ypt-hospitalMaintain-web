@@ -100,12 +100,12 @@
                 queryParam.ps = param.rows;
                 queryParam.pn = param.page;
                 $.ajaxSettings.async=false
-                $.get('/hospital-maintain/users',  Object.assign(param, queryParam), function (data) {
+                $.get('/ypt/hospital-maintain/users',  Object.assign(param, queryParam), function (data) {
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         currentRows = data.data.rows;
-                        $.get('/hospital-maintain/users-sum',  Object.assign(param, queryParam), function (data) {
+                        $.get('/ypt/hospital-maintain/users-sum',  Object.assign(param, queryParam), function (data) {
                             if (data.codeMsg)
                                 layer.alert(data.codeMsg);
                             if (data.code == 0) {
@@ -183,7 +183,7 @@
             param.ps = param.rows;
             param.pn = param.page;
             $.ajax({
-                url: '/hospital-maintain/hospitals',
+                url: '/ypt/hospital-maintain/hospitals',
                 type: 'get',
                 data: param,
                 success: function (data) {
@@ -253,7 +253,7 @@
             param.ps = param.rows;
             param.pn = param.page;
             $.ajax({
-                url: '/hospital-maintain/doctors',
+                url: '/ypt/hospital-maintain/doctors',
                 type: 'get',
                 data: param,
                 success: function (data) {
@@ -298,7 +298,7 @@
             param.ps = param.rows;
             param.pn = param.page;
             $.ajax({
-                url: '/hospital-maintain/nurses',
+                url: '/ypt/hospital-maintain/nurses',
                 type: 'get',
                 data: param,
                 success: function (data) {
@@ -408,7 +408,7 @@ onChange:function(newValue, oldValue){
                             layer.confirm(ids.length==0?'未选择任何记录, 将删除所有已查出的 '+ sum.rowCount +' 条记录, 确认删除吗?':('已选择 '+ids.length+' 条记录, 确认删除吗?'),function(){
                                         $.ajax({
                                     type: 'post',
-                                    url: '/hospital-maintain/update-users',
+                                    url: '/ypt/hospital-maintain/update-users',
                                     data: $.extend({},queryParam,{userId:ids.length==0?null:ids.join(),delNew:1,expectedRowCount:ids.length==0?sum.rowCount:ids.length}),
                                     beforeSend:function(){
                                         this.layerIndex=layer.load(2)

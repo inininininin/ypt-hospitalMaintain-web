@@ -96,12 +96,12 @@
                 queryParam.ps = param.rows;
                 queryParam.pn = param.page;
                 $.ajaxSettings.async=false
-                $.get('/hospital-maintain/nurses', queryParam, function (data) {
+                $.get('/ypt/hospital-maintain/nurses', queryParam, function (data) {
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         currentRows = data.data.rows;
-                        $.get('/hospital-maintain/nurses-sum', queryParam, function (data) {
+                        $.get('/ypt/hospital-maintain/nurses-sum', queryParam, function (data) {
                             if (data.codeMsg)
                                 layer.alert(data.codeMsg);
                             if (data.code == 0) {
@@ -240,7 +240,7 @@ onChange:function(newValue, oldValue){
                             layer.confirm(ids.length==0?'未选择任何记录, 将删除所有已查出的 '+ sum.rowCount +' 条记录, 确认删除吗?':('已选择 '+ids.length+' 条记录, 确认删除吗?'),function(){
                                         $.ajax({
                                     type: 'post',
-                                    url: '/hospital-maintain/update-nurses',
+                                    url: '/ypt/hospital-maintain/update-nurses',
                                     data: $.extend({},queryParam,{nurseId:ids.length==0?null:ids.join(),delNew:1,expectedRowCount:ids.length==0?sum.rowCount:ids.length}),
                                     beforeSend:function(){
                                         this.layerIndex=layer.load(2)

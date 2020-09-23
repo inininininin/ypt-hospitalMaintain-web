@@ -110,12 +110,12 @@
                 debugger
                 queryParam.ps = param.rows;
                 queryParam.pn = param.page;
-                $.get('/hospital-maintain/doctor-comments', Object.assign(param, queryParam), function (data) {
+                $.get('/ypt/hospital-maintain/doctor-comments', Object.assign(param, queryParam), function (data) {
                     if (data.codeMsg)
                         layer.alert(data.codeMsg);
                     if (data.code == 0) {
                         currentRows = data.data.rows;
-                        $.get('/hospital-maintain/doctor-comments-sum', queryParam, function (data) {
+                        $.get('/ypt/hospital-maintain/doctor-comments-sum', queryParam, function (data) {
                             if (data.codeMsg)
                                 layer.alert(data.codeMsg);
                             if (data.code == 0) {
@@ -192,7 +192,7 @@
             param.ps = param.rows;
             param.pn = param.page;
             $.ajax({
-                url: '/hospital-maintain/users',
+                url: '/ypt/hospital-maintain/users',
                 type: 'get',
                 data: param,
                 success: function (data) {
@@ -236,7 +236,7 @@
             param.ps = param.rows;
             param.pn = param.page;
             $.ajax({
-                url: '/hospital-maintain/doctors',
+                url: '/ypt/hospital-maintain/doctors',
                 type: 'get',
                 data: param,
                 success: function (data) {
@@ -368,7 +368,7 @@ onChange:function(newValue, oldValue){
                             layer.confirm(ids.length==0?'未选择任何记录, 将删除所有已查出的 '+ sum.rowCount +' 条记录, 确认删除吗?':('已选择 '+ids.length+' 条记录, 确认删除吗?'),function(){
                                         $.ajax({
                                     type: 'post',
-                                    url: '/hospital-maintain/update-doctor-comments',
+                                    url: '/ypt/hospital-maintain/update-doctor-comments',
                                     data: $.extend({},queryParam,{doctorCommentId:ids.length==0?null:ids.join(),delNew:1,expectedRowCount:ids.length==0?sum.rowCount:ids.length}),
                                     beforeSend:function(){
                                         this.layerIndex=layer.load(2)

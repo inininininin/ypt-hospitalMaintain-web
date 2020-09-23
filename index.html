@@ -76,7 +76,7 @@
         });
 
         $.ajaxSettings.async=false
-        $.post('/hospital-maintain/login-refresh', function (data) {
+        $.post('/ypt/login-refresh', function (data) {
             if (data.code == 0) {
                 login=data.data
                 localStorage.setItem('hospitalMaintainLogin', login)
@@ -111,7 +111,7 @@
                 callback: {
                     onClick: function (e, treeId, treeNode) {
                         if (treeNode.name == '退出登录') {
-                            $.post('/hospital-maintain/logout',function(){
+                            $.post('/ypt/logout',function(){
                                 // location.href = './login.html';
 location.href = './login-by-hospital.html?loginHospitalId='+localStorage.getItem('loginHospitalId')//+'&loginHospitalName='+encodeURIComponent(localStorage.getItem('loginHospitalName'));
                             })
